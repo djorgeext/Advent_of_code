@@ -9,24 +9,27 @@ const dataArray = lines.map(line => {
     return parts.map(numStr => parseInt(numStr, 10));
 });
 
-let safeList = 0;
-let sortRight = [];
-let sortLeft = [];
-let diff = [];
-let isSafe = false;
 
-for (let i = 0; i < dataArray.length; i++) {
-    
-    sortRight = JSON.stringify(dataArray[i].slice().sort((a, b) => a - b));
-    sortLeft = JSON.stringify(dataArray[i].slice().sort((a, b) => b - a));
+function safeEval (dataArray) {
+    let safeList = 0;
+    let sortRight = [];
+    let sortLeft = [];
+    let diff = [];
+    let isSafe = false;
+    for (let i = 0; i < dataArray.length; i++) {
 
-    if ( JSON.stringify(dataArray[i]) === sortRight || JSON.stringify(dataArray[i]) === sortLeft) {
-        diff = dataArray[i].slice(1).map((num, j) => Math.abs(num - dataArray[i][j]));
-        isSafe = diff.every(num => num >= 1 && num <= 3);
-        if (isSafe) {
-            safeList++;
+        sortRight = JSON.stringify(dataArray[i].slice().sort((a, b) => a - b));
+        sortLeft = JSON.stringify(dataArray[i].slice().sort((a, b) => b - a));
+
+        if ( JSON.stringify(dataArray[i]) === sortRight || JSON.stringify(dataArray[i]) === sortLeft) {
+            diff = dataArray[i].slice(1).map((num, j) => Math.abs(num - dataArray[i][j]));
+            isSafe = diff.every(num => num >= 1 && num <= 3);
+            if (isSafe) {
+                safeList++;
+            };
         };
-    };
+    }
+    return safeList;
 }
 
-log(safeList);
+log(safeEval(dataArray));
