@@ -9,25 +9,45 @@ const dataArray = lines.map(line => {
     return parts.map(numStr => parseInt(numStr, 10));
 });
 
-
-function safeEval (dataArray) {
-    let safeList = 0;
+const safeEvalArr = arr => {
     let sortRight = [];
     let sortLeft = [];
     let diff = [];
     let isSafe = false;
+    sortRight = JSON.stringify([...arr].sort((a, b) => a - b));
+    sortLeft = JSON.stringify([...arr].sort((a, b) => b - a));
+
+    if ( JSON.stringify(arr) === sortRight || JSON.stringify(arr) === sortLeft) {
+        diff = arr.slice(1).map((num, j) => Math.abs(num - arr[j]));
+        isSafe = diff.every(num => num >= 1 && num <= 3);
+        return isSafe;
+    };
+}
+
+const reevalArr = arr => {
+    let elem = [];
+    for (let i = 0; i < arr.length; i++) {
+        elem = [...arr];
+        elem.splice(i, 1);
+        if (safeEvalArr(elem)) {
+            return true;
+        }
+    }
+}
+
+
+function safeEval (dataArray) {
+    let safeList = 0;
+    
     for (let i = 0; i < dataArray.length; i++) {
-
-        sortRight = JSON.stringify(dataArray[i].slice().sort((a, b) => a - b));
-        sortLeft = JSON.stringify(dataArray[i].slice().sort((a, b) => b - a));
-
-        if ( JSON.stringify(dataArray[i]) === sortRight || JSON.stringify(dataArray[i]) === sortLeft) {
-            diff = dataArray[i].slice(1).map((num, j) => Math.abs(num - dataArray[i][j]));
-            isSafe = diff.every(num => num >= 1 && num <= 3);
-            if (isSafe) {
-                safeList++;
-            };
+        if (safeEvalArr(dataArray[i])) {
+            safeList++;
+        } else if (reevalArr(dataArray[i])) {
+            safeList++;
+        } else {
+            continue;
         };
+        
     }
     return safeList;
 }
