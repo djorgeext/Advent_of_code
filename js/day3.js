@@ -32,4 +32,4 @@ for (let i = 0; i < subData.length; i++) {
     accumulator2nd += mulSum(found2nd);
 }
 
-log('Parte 2',accumulator1st + accumulator2nd);
+log('Parte 2', accumulator1st + accumulator2nd);
