@@ -10,7 +10,11 @@ const pageOrderList = lines.slice(0, 1176).map(page => page.split('|').map(Numbe
 // sequence of pages updates from lines[1176] to end
 const pageUpdates = lines.slice(1177).map(page => page.split(',').map(Number));
 
+let rightUpdateMedian = 0;
 
+for (let i = 0; i < pageUpdates.length; i++) {
+    
+}
 
 
 //log(pageOrderList);
